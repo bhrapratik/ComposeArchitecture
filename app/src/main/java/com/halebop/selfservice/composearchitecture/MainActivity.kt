@@ -1,0 +1,27 @@
+package com.halebop.selfservice.composearchitecture
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import com.halebop.selfservice.composearchitecture.app.ComposeArchitectureApp
+import com.halebop.selfservice.composearchitecture.core.theme.ComposeArchitectureTheme
+
+/**
+ * The main entry point for the application.
+ *
+ * This activity sets up the Compose theme and hosts the main application composable.
+ *
+ * @author Pratik Behera
+ */
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            ComposeArchitectureTheme {
+                ComposeArchitectureApp()
+            }
+        }
+    }
+}
