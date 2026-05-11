@@ -1,5 +1,7 @@
 package com.pratik.composearchitecture.feature.home
 
+import com.pratik.composearchitecture.feature.home.domain.model.Post
+
 /**
  * Represents the UI state for the Home screen.
  *
@@ -10,6 +12,6 @@ package com.pratik.composearchitecture.feature.home
  */
 data class HomeUiState(
     val isLoading: Boolean = false,
-    val items: List<String> = emptyList(),
+    val items: List<Post> = emptyList(),
     val error: String? = null
 )

@@ -78,12 +78,12 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
                         onClick = {
-                            onEvent(HomeUiEvent.OpenDetails(item))
+                            onEvent(HomeUiEvent.OpenDetails(item.title))
                         }
                     ) {
 
                         Text(
-                            text = item,
+                            text = item.title,
                             modifier = Modifier.padding(16.dp)
                         )
                     }

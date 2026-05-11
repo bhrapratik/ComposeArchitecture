@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "ComposeArchitecture"
 include(":app")
+include(":core-network")
+include(":core-database")

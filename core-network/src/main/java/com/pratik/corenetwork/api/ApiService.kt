@@ -1,6 +1,6 @@
-package com.pratik.composearchitecture.core.network
+package com.pratik.corenetwork.api
 
-import com.pratik.composearchitecture.core.network.model.response.PostDto
+import com.pratik.corenetwork.model.response.PostDto
 import retrofit2.http.GET
 
 /**
@@ -15,7 +15,7 @@ interface ApiService {
     /**
      * Fetches a list of posts from the API.
      *
-     * @return A list of [PostDto] objects.
+     * @return A list of [com.pratik.corenetwork.model.response.PostDto] objects.
      */
     @GET("posts")
     suspend fun getPosts(): List<PostDto>

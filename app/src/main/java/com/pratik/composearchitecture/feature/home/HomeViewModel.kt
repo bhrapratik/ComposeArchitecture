@@ -7,6 +7,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -26,7 +27,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     )
 
     init {
-        loadPosts()
+        observePosts()
+        refreshPosts()
     }
 
     /**
@@ -34,19 +36,30 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
      */
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    private fun loadPosts() {
+    private fun observePosts() {
         viewModelScope.launch {
-            runCatching {
-                homeRepository.getPosts()
-            }.onSuccess { posts ->
+            homeRepository.getPosts().collectLatest { posts ->
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     items = posts,
+                )
+            }
+        }
+    }
+
+    private fun refreshPosts() {
+        viewModelScope.launch {
+            runCatching {
+                homeRepository.refreshPosts()
+            }.onSuccess { posts ->
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
                     error = null
                 )
             }.onFailure {
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false, error = it.message
+                    isLoading = false,
+                    error = it.message
                 )
             }
         }

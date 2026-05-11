@@ -1,5 +1,7 @@
-package com.pratik.composearchitecture.core.network
+package com.pratik.corenetwork.di
 
+
+import com.pratik.corenetwork.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

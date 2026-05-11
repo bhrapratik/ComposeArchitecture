@@ -1,4 +1,4 @@
-package com.pratik.composearchitecture.core.network.model.response
+package com.pratik.corenetwork.model.response
 
 /**
  * Data Transfer Object (DTO) representing a post received from the API.

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.pratik.composearchitecture.core.theme.ComposeArchitectureTheme
+import com.pratik.composearchitecture.core.ui.theme.ComposeArchitectureTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

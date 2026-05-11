@@ -1,4 +1,4 @@
-package com.pratik.composearchitecture.core.theme
+package com.pratik.composearchitecture.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
