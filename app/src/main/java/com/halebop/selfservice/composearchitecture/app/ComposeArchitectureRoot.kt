@@ -16,7 +16,7 @@ import com.halebop.selfservice.composearchitecture.navigation.BottomBar
  * @author Pratik Behera
  */
 @Composable
-fun ComposeArchitectureApp() {
+fun ComposeArchitectureRoot() {
 
     val navController = rememberNavController()
 

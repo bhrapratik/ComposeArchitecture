@@ -1,11 +1,11 @@
-package com.halebop.selfservice.composearchitecture
+package com.halebop.selfservice.composearchitecture.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.halebop.selfservice.composearchitecture.app.ComposeArchitectureApp
 import com.halebop.selfservice.composearchitecture.core.theme.ComposeArchitectureTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * The main entry point for the application.
@@ -14,13 +14,14 @@ import com.halebop.selfservice.composearchitecture.core.theme.ComposeArchitectur
  *
  * @author Pratik Behera
  */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ComposeArchitectureTheme {
-                ComposeArchitectureApp()
+                ComposeArchitectureRoot()
             }
         }
     }

@@ -1,9 +1,13 @@
 package com.halebop.selfservice.composearchitecture.feature.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the [HomeScreen].
@@ -13,21 +17,29 @@ import kotlinx.coroutines.flow.asStateFlow
  *
  * @author Pratik Behera
  */
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(
         HomeUiState(
-            items = listOf(
-                "Jetpack Compose",
-                "MVVM Architecture",
-                "StateFlow",
-                "Navigation Compose",
-                "Clean Architecture"
-            )
+            isLoading = true,
         )
     )
-    
+    init {
+        loadItems()
+    }
+
     /**
      * The UI state of the home screen as a [StateFlow].
      */
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    private fun loadItems() {
+        viewModelScope.launch {
+            val items = homeRepository.getItems()
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                items = items
+            )
+        }
+    }
 }
