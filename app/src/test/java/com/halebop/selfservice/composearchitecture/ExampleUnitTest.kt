@@ -1,4 +1,4 @@
-package com.halebop.selfservice.composearchitecture
+package com.pratik.composearchitecture
 
 import org.junit.Test
 

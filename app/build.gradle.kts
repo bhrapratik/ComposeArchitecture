@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    namespace = "com.halebop.selfservice.composearchitecture"
+    namespace = "com.pratik.composearchitecture"
     // Note: ensure 'release(36)' is correct for your setup,
     // usually it is just: compileSdk = 36
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.halebop.selfservice.composearchitecture"
+        applicationId = "com.pratik.composearchitecture"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
