@@ -24,8 +24,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             isLoading = true,
         )
     )
+
     init {
-        loadItems()
+        loadPosts()
     }
 
     /**
@@ -33,13 +34,21 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
      */
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    private fun loadItems() {
+    private fun loadPosts() {
         viewModelScope.launch {
-            val items = homeRepository.getItems()
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                items = items
-            )
+            runCatching {
+                homeRepository.getPosts()
+            }.onSuccess { posts ->
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    items = posts,
+                    error = null
+                )
+            }.onFailure {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false, error = it.message
+                )
+            }
         }
     }
 }

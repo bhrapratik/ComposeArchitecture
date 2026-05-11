@@ -1,8 +1,8 @@
-# Compose Architecture Sample
+# ComposeArchitecture
 
-A modern Android application built using **Jetpack Compose**, following clean and scalable architecture principles.
+A modern Android application built using **Jetpack Compose**, following clean and scalable Android architecture principles.
 
-This project demonstrates how to structure a production-ready Android app using:
+This project demonstrates how to structure a modern Android application using:
 
 - Single Activity Architecture
 - Jetpack Compose
@@ -10,7 +10,10 @@ This project demonstrates how to structure a production-ready Android app using:
 - Bottom Navigation
 - MVVM
 - StateFlow
-- Feature-based modular structure
+- Hilt Dependency Injection
+- Retrofit API integration
+- Repository Pattern
+- Feature-based architecture
 - Reactive UI patterns
 
 ---
@@ -23,24 +26,43 @@ This project demonstrates how to structure a production-ready Android app using:
 - ViewModel
 - Kotlin Coroutines
 - StateFlow
+- Hilt
+- Retrofit
+- OkHttp
 - Material 3
 
 ---
 
 # Architecture
 
-This project follows:
+This project follows modern Android architecture principles using:
 
 ```text
-MVVM + Clean Architecture
+Single Activity
++ MVVM
++ StateFlow
++ Hilt DI
++ Retrofit
++ Repository Pattern
++ Compose Navigation
++ Feature-based architecture
++ Reactive UI
 ```
 
-## App Flow
+---
+
+# App Flow
 
 ```text
-Home Screen
-    ↓
-Details Screen
+Compose UI
+      ↓
+ViewModel
+      ↓
+Repository
+      ↓
+Retrofit API
+      ↓
+Remote Server
 ```
 
 ---
@@ -51,24 +73,32 @@ Details Screen
 composearchitecture/
 │
 ├── app/
-│   └── navigation/
 │
 ├── core/
+│   └── network/
+│       ├── ApiService.kt
+│       ├── RetrofitModule.kt
+│       │
+│       └── model/
+│           └── response/
+│               └── PostDto.kt
 │
-├── feature-home/
-│   ├── presentation/
-│   │   ├── HomeScreen.kt
-│   │   ├── HomeViewModel.kt
-│   │   ├── HomeUiState.kt
-│   │   └── HomeUiEvent.kt
-│   │
-│   ├── domain/
-│   │
-│   └── data/
+├── navigation/
 │
-├── feature-details/
-│
-└── feature-profile/
+└── feature/
+    ├── home/
+    │   ├── data/
+    │   │   └── HomeRepository.kt
+    │   │
+    │   ├── presentation/
+    │   │   ├── HomeScreen.kt
+    │   │   ├── HomeViewModel.kt
+    │   │   ├── HomeUiState.kt
+    │   │   └── HomeUiEvent.kt
+    │
+    ├── details/
+    │
+    └── profile/
 ```
 
 ---
@@ -78,20 +108,46 @@ composearchitecture/
 ## UI
 - Jetpack Compose UI
 - LazyColumn list rendering
-- Reusable composables
+- Reactive UI rendering
 - Material 3 design
+- State-driven UI
 
 ## Navigation
 - Single Activity Navigation
 - Compose Navigation
 - Bottom Navigation
+- Navigation arguments
+- Dynamic route navigation
 - Home → Details navigation
 
 ## State Management
 - ViewModel
 - StateFlow
-- Reactive UI updates
 - UiState pattern
+- UiEvent pattern
+- Loading state handling
+- Error state handling
+
+## Networking
+- Retrofit API integration
+- DTO models
+- OkHttp logging interceptor
+- Coroutine-based API calls
+- Repository-based networking
+
+## Dependency Injection
+- Hilt DI
+- Injected repositories
+- Hilt ViewModels
+- Singleton Retrofit module
+
+## Documentation
+- Kotlin KDoc documentation
+- Documented DTO models
+- Repository documentation
+- ViewModel documentation
+- Improved code readability
+- Better maintainability
 
 ---
 
@@ -110,7 +166,11 @@ This project uses `StateFlow` because it:
 # Example StateFlow Pattern
 
 ```kotlin
-private val _uiState = MutableStateFlow(HomeUiState())
+private val _uiState = MutableStateFlow(
+    HomeUiState(
+        isLoading = true
+    )
+)
 
 val uiState = _uiState.asStateFlow()
 ```
@@ -123,20 +183,34 @@ val uiState by viewModel.uiState.collectAsState()
 
 ---
 
+# Example Documentation
+
+```kotlin
+/**
+ * Data Transfer Object (DTO) representing a post received from the API.
+ *
+ * @property id The unique identifier for the post.
+ * @property title The title of the post.
+ * @property body The content/body of the post.
+ * @author Pratik Behera
+ */
+```
+
+---
+
 # Future Improvements
 
 Planned next steps:
 
-- Hilt Dependency Injection
-- Retrofit API integration
+- Domain layer
+- DTO → Domain mappers
 - Room Database
-- Repository pattern
+- Offline caching
 - Pagination
-- Error handling
-- Loading states
 - Unit testing
-- Dark mode support
-- Modularization
+- UI testing
+- Dark mode improvements
+- Multi-module modularization
 
 ---
 
@@ -147,8 +221,10 @@ This project is built to practice and demonstrate:
 - Modern Android development
 - Clean architecture principles
 - Compose UI development
+- Dependency Injection with Hilt
+- Retrofit networking
 - Reactive state management
-- Scalable project structure
+- Scalable Android architecture
 
 ---
 
@@ -170,7 +246,9 @@ git clone <your-repository-url>
 
 2. Open in Android Studio
 
-3. Run the app
+3. Sync Gradle
+
+4. Run the app
 
 ---
 

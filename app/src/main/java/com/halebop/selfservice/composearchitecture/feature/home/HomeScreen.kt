@@ -33,32 +33,58 @@ fun HomeScreen(
     onEvent: (HomeUiEvent) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+
     val uiState by viewModel.uiState.collectAsState()
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (uiState.isLoading) {
+
+    when {
+
+        uiState.isLoading -> {
+
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 CircularProgressIndicator()
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)
+        }
+
+        uiState.error != null -> {
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+                Text(
+                    text = uiState.error ?: "Unknown Error"
+                )
+            }
+        }
+
+        else -> {
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+
                 items(uiState.items) { item ->
+
                     Card(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                        onClick = { onEvent(HomeUiEvent.OpenDetails(item = item)) }
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        onClick = {
+                            onEvent(HomeUiEvent.OpenDetails(item))
+                        }
                     ) {
 
                         Text(
-                            text = item, modifier = Modifier.padding(16.dp)
+                            text = item,
+                            modifier = Modifier.padding(16.dp)
                         )
                     }
                 }
