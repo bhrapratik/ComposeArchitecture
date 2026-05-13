@@ -12,6 +12,6 @@ fun PostDto.toPost(): Post {
     return Post(
         id = this.id,
         title = this.title,
-        body = this.body
+        body = this.body,
     )
 }

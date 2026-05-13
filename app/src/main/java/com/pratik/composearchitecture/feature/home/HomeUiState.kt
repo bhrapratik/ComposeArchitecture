@@ -15,5 +15,5 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val items: List<Post> = emptyList(),
-    val error: String? = null
+    val error: String? = null,
 )

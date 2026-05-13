@@ -11,7 +11,6 @@ import retrofit2.http.GET
  * @author Pratik Behera
  */
 interface ApiService {
-
     /**
      * Fetches a list of posts from the API.
      *

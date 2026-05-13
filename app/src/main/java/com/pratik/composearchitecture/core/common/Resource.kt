@@ -10,14 +10,13 @@ package com.pratik.composearchitecture.core.common
  * @author Pratik Behera
  */
 sealed interface Resource<out T> {
-
     /**
      * Represents a successful operation with the resulting [data].
      *
      * @property data The data returned by the operation.
      */
     data class Success<T>(
-        val data: T
+        val data: T,
     ) : Resource<T>
 
     /**
@@ -26,7 +25,7 @@ sealed interface Resource<out T> {
      * @property message A description of the error that occurred.
      */
     data class Error(
-        val message: String?
+        val message: String?,
     ) : Resource<Nothing>
 
     /**

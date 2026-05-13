@@ -9,11 +9,10 @@ import com.pratik.coredatabase.database.entity.PostEntity
  * @author Pratik Behera
  */
 fun PostEntity.toPost(): Post {
-
     return Post(
         id = id,
         title = title,
-        body = body
+        body = body,
     )
 }
 
@@ -23,10 +22,9 @@ fun PostEntity.toPost(): Post {
  * @author Pratik Behera
  */
 fun Post.toPostEntity(): PostEntity {
-
     return PostEntity(
         id = id,
         title = title,
-        body = body
+        body = body,
     )
 }

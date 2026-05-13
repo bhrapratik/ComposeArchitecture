@@ -15,13 +15,11 @@ import androidx.compose.ui.Modifier
  * @author Pratik Behera
  */
 @Composable
-fun DetailsScreen(
-    item: String
-) {
+fun DetailsScreen(item: String) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = "Selected Item")
         Text(text = item)

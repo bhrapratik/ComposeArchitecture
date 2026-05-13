@@ -17,15 +17,16 @@ import com.pratik.composearchitecture.navigation.BottomBar
  */
 @Composable
 fun ComposeArchitectureRoot() {
-
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
-        }) { paddingValues ->
+        },
+    ) { paddingValues ->
         AppNavHost(
-            navController = navController, modifier = Modifier.padding(paddingValues)
+            navController = navController,
+            modifier = Modifier.padding(paddingValues),
         )
     }
 }

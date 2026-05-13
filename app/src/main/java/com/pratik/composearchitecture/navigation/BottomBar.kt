@@ -8,9 +8,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.compose.runtime.getValue
 
 /**
  * A bottom navigation bar that allows users to switch between main sections of the app.
@@ -19,16 +19,14 @@ import androidx.compose.runtime.getValue
  * @author Pratik Behera
  */
 @Composable
-fun BottomBar(
-    navController: NavHostController
-) {
-    val items = listOf(
-        Screen.Home,
-        Screen.Profile
-    )
+fun BottomBar(navController: NavHostController) {
+    val items =
+        listOf(
+            Screen.Home,
+            Screen.Profile,
+        )
 
     NavigationBar {
-
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -44,14 +42,14 @@ fun BottomBar(
                         Screen.Home -> {
                             Icon(
                                 imageVector = Icons.Default.Home,
-                                contentDescription = "Home"
+                                contentDescription = "Home",
                             )
                         }
 
                         Screen.Profile -> {
                             Icon(
                                 imageVector = Icons.Default.Person,
-                                contentDescription = "Profile"
+                                contentDescription = "Profile",
                             )
                         }
 
@@ -60,7 +58,7 @@ fun BottomBar(
                 },
                 label = {
                     Text(text = screen.route)
-                }
+                },
             )
         }
     }

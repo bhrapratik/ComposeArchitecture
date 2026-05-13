@@ -1,40 +1,44 @@
 name: Android CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
+    push:
+        branches:
+            - main
+            - master
 
-  pull_request:
-    branches:
-      - main
-      - master
+    pull_request:
+        branches:
+            - main
+            - master
 
 jobs:
-  build:
 
-    runs-on: ubuntu-latest
+    build:
 
-    steps:
+        runs-on: ubuntu-latest
 
-      - name: Checkout Code
-        uses: actions/checkout@v4
+        steps:
 
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
+            - name: Checkout Code
+              uses: actions/checkout@v4
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+            - name: Setup JDK
+              uses: actions/setup-java@v4
+              with:
+                  distribution: temurin
+                  java-version: 17
 
-      - name: Grant Execute Permission
-        run: chmod +x gradlew
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v3
 
-      - name: Build Project
-        run: ./gradlew build
+            - name: Grant Execute Permission
+              run: chmod +x gradlew
 
-      - name: Run Unit Tests
-        run: ./gradlew test
+            - name: Run Ktlint Check
+              run: ./gradlew ktlintCheck
+
+            - name: Build Project
+              run: ./gradlew build
+
+            - name: Run Unit Tests
+              run: ./gradlew test

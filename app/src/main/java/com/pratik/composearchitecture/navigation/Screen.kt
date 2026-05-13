@@ -8,7 +8,6 @@ package com.pratik.composearchitecture.navigation
  * @author Pratik Behera
  */
 sealed class Screen(val route: String) {
-
     /**
      * The home screen destination.
      */

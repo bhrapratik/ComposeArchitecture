@@ -4,8 +4,11 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.hilt)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.ktlint)
 }
-
+ktlint {
+    android.set(true)
+}
 android {
     namespace = "com.pratik.corenetwork"
     compileSdk {
@@ -24,7 +27,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

@@ -22,7 +22,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
-
     /**
      * Provides a [HttpLoggingInterceptor] for logging network requests and responses.
      */
@@ -41,9 +40,7 @@ object RetrofitModule {
      */
     @Provides
     @Singleton
-    fun provideOkHttp(
-        loggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
+    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
@@ -56,9 +53,7 @@ object RetrofitModule {
      */
     @Provides
     @Singleton
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient
-    ): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .client(okHttpClient)
@@ -73,9 +68,7 @@ object RetrofitModule {
      */
     @Provides
     @Singleton
-    fun provideApiService(
-        retrofit: Retrofit
-    ): ApiService {
+    fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 }

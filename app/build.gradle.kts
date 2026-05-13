@@ -4,8 +4,11 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.hilt)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.ktlint)
 }
-
+ktlint {
+    android.set(true)
+}
 android {
     namespace = "com.pratik.composearchitecture"
     // Note: ensure 'release(36)' is correct for your setup,
@@ -27,7 +30,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

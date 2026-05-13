@@ -20,7 +20,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-
     /**
      * Provides the singleton instance of [AppDatabase].
      *
@@ -30,12 +29,12 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): AppDatabase {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "compose_architecture.db"
+            "compose_architecture.db",
         ).build()
     }
 }

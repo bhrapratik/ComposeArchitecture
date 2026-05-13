@@ -16,5 +16,5 @@ data class PostEntity(
     @PrimaryKey
     val id: Int,
     val title: String,
-    val body: String
+    val body: String,
 )

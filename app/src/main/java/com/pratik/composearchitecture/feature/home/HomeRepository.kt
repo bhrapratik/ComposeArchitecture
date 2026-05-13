@@ -20,42 +20,47 @@ import javax.inject.Inject
  * @property localDataSource The [PostLocalDataSource] used for local persistence.
  * @author Pratik Behera
  */
-class HomeRepository @Inject constructor(
-    private val apiService: ApiService, private val localDataSource: PostLocalDataSource
-) {
-    /**
-     * Fetches a list of posts, emitting loading, success, or error states.
-     * It attempts to refresh the posts from the network and then observes the local database.
-     *
-     * @return A [Flow] of [Resource] containing a list of [Post] objects.
-     */
-    fun getPosts(): Flow<Resource<List<Post>>> = flow {
-        emit(Resource.Loading)
-        runCatching {
-            refreshPosts()
-            localDataSource.getAllPosts().map { entities ->
-                entities.map { entity ->
-                    entity.toPost()
+class HomeRepository
+    @Inject
+    constructor(
+        private val apiService: ApiService,
+        private val localDataSource: PostLocalDataSource,
+    ) {
+        /**
+         * Fetches a list of posts, emitting loading, success, or error states.
+         * It attempts to refresh the posts from the network and then observes the local database.
+         *
+         * @return A [Flow] of [Resource] containing a list of [Post] objects.
+         */
+        fun getPosts(): Flow<Resource<List<Post>>> =
+            flow {
+                emit(Resource.Loading)
+                runCatching {
+                    refreshPosts()
+                    localDataSource.getAllPosts().map { entities ->
+                        entities.map { entity ->
+                            entity.toPost()
+                        }
+                    }.collect { posts ->
+                        emit(Resource.Success(posts))
+                    }
+                }.onFailure { exception ->
+                    emit(Resource.Error(exception.message))
                 }
-            }.collect { posts ->
-                emit(Resource.Success(posts))
             }
-        }.onFailure { exception ->
-            emit(Resource.Error(exception.message))
+
+        /**
+         * Refreshes the posts by fetching them from the network and saving them to the local database.
+         */
+        suspend fun refreshPosts() {
+            val postsFromApi =
+                apiService.getPosts().map { dto ->
+                    dto.toPost()
+                }
+            localDataSource.insertPosts(
+                postsFromApi.map { post ->
+                    post.toPostEntity()
+                },
+            )
         }
     }
-
-    /**
-     * Refreshes the posts by fetching them from the network and saving them to the local database.
-     */
-    suspend fun refreshPosts() {
-        val postsFromApi = apiService.getPosts().map { dto ->
-            dto.toPost()
-        }
-        localDataSource.insertPosts(
-            postsFromApi.map { post ->
-                post.toPostEntity()
-
-            })
-    }
-}

@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface PostDao {
-
     /**
      * Retrieves all posts from the database.
      *

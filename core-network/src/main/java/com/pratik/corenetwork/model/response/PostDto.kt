@@ -11,5 +11,5 @@ package com.pratik.corenetwork.model.response
 data class PostDto(
     val id: Int,
     val title: String,
-    val body: String
+    val body: String,
 )

@@ -14,20 +14,22 @@ import javax.inject.Inject
  * @property database The [AppDatabase] instance.
  * @author Pratik Behera
  */
-class PostLocalDataSource @Inject constructor(
-    private val database: AppDatabase
-) {
-    /**
-     * Retrieves all posts from the local database.
-     *
-     * @return A [Flow] of the list of [PostEntity] objects.
-     */
-    fun getAllPosts(): Flow<List<PostEntity>> = database.postDao().getAllPosts()
+class PostLocalDataSource
+    @Inject
+    constructor(
+        private val database: AppDatabase,
+    ) {
+        /**
+         * Retrieves all posts from the local database.
+         *
+         * @return A [Flow] of the list of [PostEntity] objects.
+         */
+        fun getAllPosts(): Flow<List<PostEntity>> = database.postDao().getAllPosts()
 
-    /**
-     * Inserts a list of posts into the local database.
-     *
-     * @param posts The list of [PostEntity] objects to insert.
-     */
-    suspend fun insertPosts(posts: List<PostEntity>) = database.postDao().insertPosts(posts)
-}
+        /**
+         * Inserts a list of posts into the local database.
+         *
+         * @param posts The list of [PostEntity] objects to insert.
+         */
+        suspend fun insertPosts(posts: List<PostEntity>) = database.postDao().insertPosts(posts)
+    }

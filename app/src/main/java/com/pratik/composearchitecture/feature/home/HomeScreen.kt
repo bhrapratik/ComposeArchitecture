@@ -38,53 +38,49 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 @Composable
 fun HomeScreen(
     onEvent: (HomeUiEvent) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
 
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.isRefreshing,
-        onRefresh = {
-            viewModel.refreshPosts()
-        }
-    )
+    val pullRefreshState =
+        rememberPullRefreshState(
+            refreshing = uiState.isRefreshing,
+            onRefresh = {
+                viewModel.refreshPosts()
+            },
+        )
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(pullRefreshState)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .pullRefresh(pullRefreshState),
     ) {
         when {
-
             uiState.isLoading -> {
-
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-
                     CircularProgressIndicator()
                 }
             }
 
             uiState.error != null -> {
-
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-
                     Text(
-                        text = uiState.error ?: "Unknown Error"
+                        text = uiState.error ?: "Unknown Error",
                     )
                     Button(
                         enabled = !uiState.isRefreshing,
                         onClick = {
                             viewModel.refreshPosts()
-                        }
+                        },
                     ) {
                         Text(text = "Retry")
                     }
@@ -92,36 +88,32 @@ fun HomeScreen(
             }
 
             else -> {
-
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-
-
                     items(uiState.items) { item ->
 
                         Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
                             onClick = {
                                 onEvent(HomeUiEvent.OpenDetails(item.title))
-                            }
+                            },
                         ) {
-
                             Text(
                                 text = item.title,
-                                modifier = Modifier.padding(16.dp)
+                                modifier = Modifier.padding(16.dp),
                             )
                         }
                     }
-
                 }
                 PullRefreshIndicator(
                     refreshing = uiState.isRefreshing,
                     state = pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter)
+                    modifier = Modifier.align(Alignment.TopCenter),
                 )
             }
         }

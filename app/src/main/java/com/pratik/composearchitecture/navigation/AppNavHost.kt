@@ -24,12 +24,12 @@ import com.pratik.composearchitecture.feature.profile.ProfileScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
-        modifier = modifier
+        modifier = modifier,
     ) {
         composable(Screen.Home.route) {
             HomeScreen(
@@ -37,17 +37,18 @@ fun AppNavHost(
                     when (event) {
                         is HomeUiEvent.OpenDetails -> {
                             navController.navigate(
-                                Screen.Details.createRoute(event.item)
+                                Screen.Details.createRoute(event.item),
                             )
                         }
                     }
-                }
+                },
             )
         }
         composable(Screen.Details.route) { backStackEntry ->
-            val item = backStackEntry.arguments
-                ?.getString("item")
-                .orEmpty()
+            val item =
+                backStackEntry.arguments
+                    ?.getString("item")
+                    .orEmpty()
             DetailsScreen(item = item)
         }
 
