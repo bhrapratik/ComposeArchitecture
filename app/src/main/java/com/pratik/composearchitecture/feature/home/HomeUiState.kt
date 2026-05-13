@@ -6,7 +6,7 @@ import com.pratik.composearchitecture.feature.home.domain.model.Post
  * Represents the UI state for the Home screen.
  *
  * @property isLoading Indicates if the screen is currently loading data.
- * @property items The list of strings to be displayed in the list.
+ * @property items The list of posts to be displayed on the screen.
  * @property error An optional error message to be displayed if data loading fails.
  * @author Pratik Behera
  */

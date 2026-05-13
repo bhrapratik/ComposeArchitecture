@@ -15,7 +15,7 @@ interface ApiService {
     /**
      * Fetches a list of posts from the API.
      *
-     * @return A list of [com.pratik.corenetwork.model.response.PostDto] objects.
+     * @return A list of [PostDto] objects.
      */
     @GET("posts")
     suspend fun getPosts(): List<PostDto>
