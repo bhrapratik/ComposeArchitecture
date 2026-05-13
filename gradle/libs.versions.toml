@@ -18,6 +18,7 @@ okhttpLogging = "4.12.0"
 appcompat = "1.7.1"
 material = "1.13.0"
 room = "2.8.4"
+compose-material = "1.6.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +38,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
 #Dependency injection
 google-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 google-hilt-compiler = {    group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
@@ -53,6 +55,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
 
 
 

@@ -22,6 +22,9 @@ This project demonstrates modern Android development using:
 - Feature-based Package Structure
 - Modularization (Core modules)
 - Reactive UI
+- Pull-to-Refresh
+- Retry Handling
+- Resource Wrapper Architecture
 
 ---
 
@@ -45,6 +48,7 @@ This project follows modern Android architecture principles:
 - **Repository Pattern**: Centralized data access strategy.
 - **Offline-first Architecture**: Room database acts as the Single Source of Truth (SSOT).
 - **Reactive UI**: UI automatically updates in response to state changes.
+- **Reactive State Management**: Uses `Resource` wrapper for Loading, Success, and Error states.
 
 ---
 
@@ -52,6 +56,9 @@ This project follows modern Android architecture principles:
 
 - Offline-first architecture
 - Reactive UI using Flow + StateFlow
+- Pull-to-refresh support
+- Retry mechanism for failed API requests
+- Resource wrapper state handling
 - Modular core layers
 - Clean separation of DTO, Entity, and Domain models
 - Single Source Of Truth (SSOT)
@@ -65,7 +72,11 @@ This project follows modern Android architecture principles:
 ```text
 Compose UI
       ↓
+StateFlow<HomeUiState>
+      ↓
 ViewModel
+      ↓
+Flow<Resource<List<Post>>>
       ↓
 Repository
       ↓
@@ -91,9 +102,9 @@ Post (Domain Model) ↔ PostEntity (Database Model)
       ↓
 Room Database (Local Storage)
       ↓
-Flow<List<Post>> (Reactive Stream)
+Flow<Resource<List<Post>>>
       ↓
-StateFlow<HomeUiState> (UI State)
+StateFlow<HomeUiState>
       ↓
 Compose UI (UI Layer)
 ```
@@ -117,26 +128,50 @@ composearchitecture/
 │
 ├── app/
 │   └── src/main/java/com/pratik/composearchitecture/
-│       ├── feature/           # Feature-based packages
-│       │   ├── home/          # UI, ViewModel, Repository for Home
-│       │   ├── details/       # UI for Details
-│       │   └── profile/       # UI for Profile
-│       ├── navigation/        # AppNavHost and Screen definitions
-│       └── core/              # App-level core components
+│       ├── core/
+│       │   ├── common/
+│       │   │   └── Resource.kt
+│       │   ├── theme/
+│       │   └── ui/
+│       │
+│       ├── feature/
+│       │   ├── home/
+│       │   │   ├── data/
+│       │   │   │   ├── mapper/
+│       │   │   │   └── HomeRepository.kt
+│       │   │   │
+│       │   │   ├── domain/
+│       │   │   │   └── model/
+│       │   │   │
+│       │   │   └── presentation/
+│       │   │       ├── HomeScreen.kt
+│       │   │       ├── HomeViewModel.kt
+│       │   │       ├── HomeUiState.kt
+│       │   │       └── HomeUiEvent.kt
+│       │   │
+│       │   ├── details/
+│       │   └── profile/
+│       │
+│       ├── navigation/
+│       └── MainActivity.kt
 │
 ├── core-network/
 │   └── src/main/java/com/pratik/corenetwork/
-│       ├── api/               # Retrofit service interfaces
-│       ├── di/                # Hilt modules for network layer
-│       └── model/             # Network DTOs
+│       ├── api/
+│       ├── di/
+│       └── model/
 │
 ├── core-database/
 │   └── src/main/java/com/pratik/coredatabase/database/
-│       ├── dao/               # Room DAOs
-│       ├── datasource/        # Local data sources
-│       ├── di/                # Hilt modules for database layer
-│       ├── entity/            # Room entities
-│       └── AppDatabase.kt     # Room database definition
+│       ├── dao/
+│       ├── datasource/
+│       ├── di/
+│       ├── entity/
+│       └── AppDatabase.kt
+│
+└── .github/
+    └── workflows/
+        └── android-ci.yml
 ```
 
 ---
@@ -153,21 +188,32 @@ composearchitecture/
 
 ---
 
+## State Management
+
+- **UiState Pattern**: Encapsulates loading, refreshing, success, and error states.
+- **UiEvent Pattern**: Handles user interactions and navigation events.
+- **StateFlow & Flow**: Reactive state updates using Kotlin Flows.
+- **Resource Wrapper**: Loading, Success, and Error state abstraction.
+- **Lifecycle-aware UI**: Uses `collectAsStateWithLifecycle()`.
+
+---
+
 ## Data Management
 
 - **Offline-first**: API data is synchronized into local Room database storage.
 - **Repository Pattern**: `HomeRepository` abstracts local and remote data sources.
 - **Mapping Layer**: Clear separation between DTOs, Entities, and Domain Models.
 - **Single Source Of Truth**: UI observes local database instead of direct API responses.
+- **Reactive Room Flow**: Automatic UI updates from database changes.
 
 ---
 
-## State Management
+## User Experience
 
-- **UiState Pattern**: Encapsulates loading, success, and error states.
-- **UiEvent Pattern**: Handles user interactions and navigation events.
-- **StateFlow & Flow**: Reactive state updates using Kotlin Flows.
-- **Lifecycle-aware UI**: Uses `collectAsStateWithLifecycle()`.
+- **Pull-to-Refresh**: Swipe down to refresh posts.
+- **Retry Handling**: Retry button for failed API requests.
+- **Reactive Loading States**: Distinguishes loading vs refreshing states.
+- **Error Handling**: Graceful error rendering using Resource wrapper architecture.
 
 ---
 
@@ -195,6 +241,14 @@ composearchitecture/
 
 ---
 
+## CI/CD
+
+- **GitHub Actions**: Automated Android CI pipeline.
+- **Gradle Build Validation**: Automatic build verification on push and pull requests.
+- **Unit Test Execution**: Automated test execution through GitHub Actions.
+
+---
+
 # Why Flow + StateFlow?
 
 This project uses:
@@ -212,17 +266,44 @@ Benefits:
 
 ---
 
+# Example Resource Wrapper
+
+```kotlin
+sealed interface Resource<out T> {
+
+    data class Success<T>(
+        val data: T
+    ) : Resource<T>
+
+    data class Error(
+        val message: String?
+    ) : Resource<Nothing>
+
+    data object Loading : Resource<Nothing>
+}
+```
+
+---
+
 # Example Flow Architecture
 
 ```kotlin
-fun getPosts(): Flow<List<Post>>
+fun getPosts(): Flow<Resource<List<Post>>>
 ```
 
 Observed in ViewModel:
 
 ```kotlin
-repository.getPosts().collectLatest { posts ->
-    // update ui state
+repository.getPosts().collectLatest { resource ->
+
+    when(resource) {
+
+        is Resource.Success -> {}
+
+        is Resource.Error -> {}
+
+        is Resource.Loading -> {}
+    }
 }
 ```
 
@@ -252,6 +333,7 @@ The app follows an offline-first approach:
 2. Data is cached into Room Database.
 3. UI observes Room using Flow.
 4. Database updates automatically refresh the UI.
+5. Pull-to-refresh updates local cache reactively.
 
 Benefits:
 
@@ -284,16 +366,16 @@ Example:
 
 # Future Roadmap
 
-- [ ] Resource wrapper architecture
 - [ ] Unit testing for repositories and ViewModels
 - [ ] UI testing using Compose Test Rule
 - [ ] Pagination / Paging 3 integration
-- [ ] Pull-to-refresh support
+- [ ] Search and filter functionality
 - [ ] Dark mode improvements and Dynamic Color
 - [ ] Move features into dedicated Gradle modules
-- [ ] Search and filter functionality
 - [ ] Network monitoring
-- [ ] CI/CD pipeline setup
+- [ ] Detekt + Ktlint integration
+- [ ] Firebase App Distribution
+- [ ] Play Store deployment automation
 
 ---
 

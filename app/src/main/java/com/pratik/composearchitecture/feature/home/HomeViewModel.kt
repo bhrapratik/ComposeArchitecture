@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
  * It manages the UI state for the home feature, handling data fetching from the [HomeRepository]
  * and exposing it as a [StateFlow] of [HomeUiState].
  *
- * @property homeRepository The repository used to fetch post data.
+ * @property homeRepository The repository used to fetch post data and handle synchronization.
  * @author Pratik Behera
  */
 @HiltViewModel
@@ -41,6 +41,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     /**
      * Fetches posts from the repository and updates the [_uiState] accordingly.
      * It handles success, error, and loading states emitted by the repository.
+     * This method is called during initialization to start observing data.
      */
     private fun getPosts() {
         viewModelScope.launch {
@@ -68,6 +69,32 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         )
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Triggers a manual refresh of the posts from the remote data source.
+     * Updates [HomeUiState.isRefreshing] to provide visual feedback during the operation.
+     */
+    fun refreshPosts() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(
+                isRefreshing = true,
+                error = null
+            )
+            runCatching {
+                homeRepository.refreshPosts()
+            }.onFailure { exception ->
+                _uiState.value = _uiState.value.copy(
+                    isRefreshing = false,
+                    error = exception.message
+                )
+            }.onSuccess {
+                _uiState.value = _uiState.value.copy(
+                    isRefreshing = false,
+                    error = null
+                )
             }
         }
     }

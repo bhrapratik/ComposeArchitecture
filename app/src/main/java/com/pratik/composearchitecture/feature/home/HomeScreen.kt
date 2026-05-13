@@ -1,12 +1,18 @@
 package com.pratik.composearchitecture.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -28,6 +34,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
  * @param viewModel The ViewModel that manages the state for this screen.
  * @author Pratik Behera
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     onEvent: (HomeUiEvent) -> Unit,
@@ -36,58 +43,86 @@ fun HomeScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    when {
-
-        uiState.isLoading -> {
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                CircularProgressIndicator()
-            }
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = uiState.isRefreshing,
+        onRefresh = {
+            viewModel.refreshPosts()
         }
+    )
 
-        uiState.error != null -> {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
+        when {
 
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            uiState.isLoading -> {
 
-                Text(
-                    text = uiState.error ?: "Unknown Error"
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    CircularProgressIndicator()
+                }
             }
-        }
 
-        else -> {
+            uiState.error != null -> {
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-                items(uiState.items) { item ->
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                    Text(
+                        text = uiState.error ?: "Unknown Error"
+                    )
+                    Button(
+                        enabled = !uiState.isRefreshing,
                         onClick = {
-                            onEvent(HomeUiEvent.OpenDetails(item.title))
+                            viewModel.refreshPosts()
                         }
                     ) {
-
-                        Text(
-                            text = item.title,
-                            modifier = Modifier.padding(16.dp)
-                        )
+                        Text(text = "Retry")
                     }
                 }
+            }
+
+            else -> {
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+
+
+                    items(uiState.items) { item ->
+
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            onClick = {
+                                onEvent(HomeUiEvent.OpenDetails(item.title))
+                            }
+                        ) {
+
+                            Text(
+                                text = item.title,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    }
+
+                }
+                PullRefreshIndicator(
+                    refreshing = uiState.isRefreshing,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
             }
         }
     }
