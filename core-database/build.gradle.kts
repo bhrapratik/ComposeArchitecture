@@ -5,6 +5,10 @@ plugins {
     alias(libs.plugins.google.hilt)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
+}
+detekt {
+    config.setFrom(files("$rootDir/detekt.yml"))
 }
 ktlint {
     android.set(true)
