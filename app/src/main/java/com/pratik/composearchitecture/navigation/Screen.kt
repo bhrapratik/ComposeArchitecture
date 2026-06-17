@@ -29,4 +29,6 @@ sealed class Screen(val route: String) {
             return "details/$item"
         }
     }
+
+    data object Practice : Screen("Home")
 }

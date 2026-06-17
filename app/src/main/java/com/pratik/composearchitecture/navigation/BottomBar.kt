@@ -22,7 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun BottomBar(navController: NavHostController) {
     val items =
         listOf(
-            Screen.Home,
+            Screen.Practice,
             Screen.Profile,
         )
 
@@ -39,7 +39,7 @@ fun BottomBar(navController: NavHostController) {
                 },
                 icon = {
                     when (screen) {
-                        Screen.Home -> {
+                        Screen.Practice -> {
                             Icon(
                                 imageVector = Icons.Default.Home,
                                 contentDescription = "Home",

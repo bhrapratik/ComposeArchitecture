@@ -6,8 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pratik.composearchitecture.feature.details.DetailsScreen
-import com.pratik.composearchitecture.feature.home.HomeScreen
-import com.pratik.composearchitecture.feature.home.HomeUiEvent
+import com.pratik.composearchitecture.feature.practice.PracticeScreen
 import com.pratik.composearchitecture.feature.profile.ProfileScreen
 
 /**
@@ -28,10 +27,10 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route,
+        startDestination = Screen.Practice.route,
         modifier = modifier,
     ) {
-        composable(Screen.Home.route) {
+        /*composable(Screen.Home.route) {
             HomeScreen(
                 onEvent = { event ->
                     when (event) {
@@ -43,12 +42,13 @@ fun AppNavHost(
                     }
                 },
             )
+        }*/
+
+        composable(Screen.Practice.route) {
+            PracticeScreen()
         }
         composable(Screen.Details.route) { backStackEntry ->
-            val item =
-                backStackEntry.arguments
-                    ?.getString("item")
-                    .orEmpty()
+            val item = backStackEntry.arguments?.getString("item").orEmpty()
             DetailsScreen(item = item)
         }
 

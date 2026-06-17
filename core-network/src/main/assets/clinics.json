@@ -1,0 +1,38 @@
+[
+    {
+        "id": "1",
+        "clinic_name": "City Health Clinic",
+        "distance_meters": 500.0,
+        "classification": "ROUTINE"
+    },
+    {
+        "id": "2",
+        "clinic_name": "Downtown Medical Center",
+        "distance_meters": 1200.0,
+        "classification": "URGENT"
+    },
+    {
+        "id": "3",
+        "clinic_name": "Suburban Family Clinic",
+        "distance_meters": 800.0,
+        "classification": "ROUTINE"
+    },
+    {
+        "id": "4",
+        "clinic_name": "Uptown Wellness Clinic",
+        "distance_meters": 1500.0,
+        "classification": "URGENT"
+    },
+    {
+        "id": "5",
+        "clinic_name": "Eastside Health Center",
+        "distance_meters": 300.0,
+        "classification": "URGENT"
+    },
+    {
+        "id": "6",
+        "clinic_name": "Westside Specialty Clinic",
+        "distance_meters": 2000.0,
+        "classification": "ROUTINE"
+    }
+]

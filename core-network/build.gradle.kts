@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
+    kotlin("plugin.serialization") version "2.2.0"
 }
 detekt {
     config.setFrom(files("$rootDir/detekt.yml"))
@@ -63,4 +64,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.kotlinx.serialization.json)
 }
