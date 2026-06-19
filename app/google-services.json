@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "61159629549",
+    "project_id": "agentdesk-642ac",
+    "storage_bucket": "agentdesk-642ac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61159629549:android:46880498a67cb56d96e2e4",
+        "android_client_info": {
+          "package_name": "com.pratik.composearchitecture"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_o95coK2XCFEAU7ee-ByQEBQVG3spvlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

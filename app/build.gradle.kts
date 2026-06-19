@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
+    id("com.google.gms.google-services")
 }
 detekt {
     config.setFrom(files("$rootDir/detekt.yml"))
@@ -82,6 +83,14 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.retrofit.converter.gson)
     implementation(libs.squareup.okhttp.logging)
+
+    // Import the Firebase BoM
+    implementation(platform(libs.firebase.bom))
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

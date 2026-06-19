@@ -1,5 +1,7 @@
 [versions]
 agp = "9.2.1"
+firebaseBom = "34.15.0"
+firebaseMessaging = "25.1.0"
 kotlin = "2.2.10"
 coreKtx = "1.18.0"
 junit = "4.13.2"
@@ -22,9 +24,13 @@ room = "2.8.4"
 compose-material = "1.6.7"
 ktlint = "12.1.1"
 detekt = "1.23.6"
+firebaseMessagingKtx = "25.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging"}
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

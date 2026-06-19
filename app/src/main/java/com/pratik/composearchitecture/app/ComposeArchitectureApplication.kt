@@ -1,6 +1,8 @@
 package com.pratik.composearchitecture.app
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -9,4 +11,20 @@ import dagger.hilt.android.HiltAndroidApp
  * @author Pratik Behera
  */
 @HiltAndroidApp
-class ComposeArchitectureApplication : Application()
+class ComposeArchitectureApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        createNotificationChannel()
+    }
+
+    private fun createNotificationChannel() {
+        val channel = NotificationChannel(
+            "Notification",
+            "Notification",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
+    }
+}
