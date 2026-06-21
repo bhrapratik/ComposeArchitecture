@@ -3,11 +3,13 @@ package com.pratik.corenetwork.di
 import android.content.Context
 import com.pratik.corenetwork.api.ClinicApiService
 import com.pratik.corenetwork.api.MockClinicApiService
+import com.pratik.corenetwork.api.NotificationApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 /**
@@ -31,5 +33,11 @@ object NetworkModule {
     @Singleton
     fun provideClinicApiService(@ApplicationContext context: Context): ClinicApiService {
         return MockClinicApiService(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationApiService(retrofit: Retrofit): NotificationApiService {
+        return retrofit.create(NotificationApiService::class.java)
     }
 }

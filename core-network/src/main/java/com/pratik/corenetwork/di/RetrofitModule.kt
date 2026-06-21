@@ -50,12 +50,13 @@ object RetrofitModule {
      * Provides a [Retrofit] instance configured with a base URL and Gson converter.
      *
      * @param okHttpClient The HTTP client to be used by Retrofit.
+     * https://jsonplaceholder.typicode.com/
      */
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .baseUrl("http://10.0.2.2:8080/api/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

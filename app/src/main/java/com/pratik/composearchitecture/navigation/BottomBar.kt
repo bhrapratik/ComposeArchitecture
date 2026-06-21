@@ -2,7 +2,11 @@ package com.pratik.composearchitecture.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Inbox
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -19,11 +23,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
  * @author Pratik Behera
  */
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(navController: NavHostController, unreadCount: Int) {
+
     val items =
         listOf(
             Screen.Practice,
-            Screen.Profile,
+            Screen.Notification,
         )
 
     NavigationBar {
@@ -46,11 +51,24 @@ fun BottomBar(navController: NavHostController) {
                             )
                         }
 
-                        Screen.Profile -> {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Profile",
-                            )
+                        Screen.Notification -> {
+                            BadgedBox(
+                                badge = {
+
+                                    if (unreadCount > 0) {
+
+                                        Badge {
+                                            Text(unreadCount.toString())
+                                        }
+                                    }
+                                }
+                            ) {
+
+                                Icon(
+                                    imageVector = Icons.Default.Notifications,
+                                    contentDescription = null
+                                )
+                            }
                         }
 
                         else -> {}

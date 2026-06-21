@@ -2,6 +2,8 @@ package com.pratik.coredatabase.database.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.pratik.coredatabase.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -35,6 +37,24 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "compose_architecture.db",
-        ).build()
+        ).addMigrations(MIGRATION_1_2).build()
+    }
+
+    val MIGRATION_1_2 = object : Migration(1, 2) {
+
+        override fun migrate(database: SupportSQLiteDatabase) {
+
+            database.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS notifications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                title TEXT NOT NULL,
+                body TEXT NOT NULL,
+                createdAt INTEGER NOT NULL,
+                isRead INTEGER NOT NULL
+            )
+            """
+            )
+        }
     }
 }

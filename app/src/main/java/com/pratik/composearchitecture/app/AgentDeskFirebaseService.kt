@@ -11,9 +11,20 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.pratik.composearchitecture.R
+import com.pratik.composearchitecture.feature.notification.NotificationRepository
+import dagger.hilt.android.AndroidEntryPoint
+import jakarta.inject.Inject
+import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class AgentDeskFirebaseService : FirebaseMessagingService() {
+
+    @Inject
+    lateinit var appCoroutineScope: AppCoroutineScope
+
+    @Inject
+    lateinit var repository: NotificationRepository
 
 
     @Deprecated("Deprecated in Java")
@@ -32,6 +43,11 @@ class AgentDeskFirebaseService : FirebaseMessagingService() {
 
         val body =
             message.notification?.body ?: ""
+
+
+        appCoroutineScope.scope.launch {
+            repository.saveNotification(title = title, body = body)
+        }
 
         showNotification(
             title = title,

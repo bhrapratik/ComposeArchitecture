@@ -16,7 +16,7 @@ sealed class Screen(val route: String) {
     /**
      * The profile screen destination.
      */
-    data object Profile : Screen("profile")
+    data object Notification : Screen("Inbox")
 
     /**
      * The details screen destination, which requires an [item] parameter.

@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pratik.composearchitecture.feature.details.DetailsScreen
 import com.pratik.composearchitecture.feature.practice.PracticeScreen
-import com.pratik.composearchitecture.feature.profile.ProfileScreen
+import com.pratik.composearchitecture.feature.notification.NotificationScreen
 
 /**
  * The main navigation host for the application.
@@ -52,8 +52,8 @@ fun AppNavHost(
             DetailsScreen(item = item)
         }
 
-        composable(Screen.Profile.route) {
-            ProfileScreen()
+        composable(Screen.Notification.route) {
+            NotificationScreen()
         }
     }
 }
